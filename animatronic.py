@@ -1,23 +1,7 @@
-import speech_recognition as sr
-import pyttsx3
+import serial 
 
-r = sr.Recognizer()
-engine = pyttsx3.init()
+arduino = serial.Serial('/dev/ttyACM0', 9600) #Replace '/dev/ttyACM0' with your Arduino port and '9600' with your baudrate
+code_A = "YOUR_CODE_HERE" # Replace this with your actual code
 
-def talk(text):
-    engine.say(text)
-    engine.runAndWait()
-
-def take_command():
-    try:
-        with sr.Microphone() as source:
-            print('listening...')
-            voice = r.listen(source)
-            command = r.recognize_google(voice)
-            if 'gladys' in command:
-                command = command.replace('gladys', '')
-                print(command)
-
-    except:
-        pass
-    return command
+while True:
+  arduino.write(code_A.encode()) 

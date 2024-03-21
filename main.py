@@ -3,6 +3,11 @@ import ollama
 from ollama import Client
 import speech_recognition as sr
 import pyttsx3
+import requests
+
+
+
+
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -31,11 +36,27 @@ rodar = 1
 command = take_command()
 
 
-client = Client(host='http://192.168.15.115:11434')
-response = client.chat(model='llama2', messages=[
-  {
-    'role': 'user',
-    'content': command,
-  },
-])
-print(response['message']['content'])
+def generate_text_with_prompt(prompt_text):
+    url = 'http://valleteck.ddns.net:11434/api/generate'
+    payload = {
+        "model": "aladdin:latest",
+        "prompt": command,
+        "stream": False,
+        "options": {
+            "num_ctx": 1024
+        }
+    }
+    response = requests.post(url, json=payload)
+    
+    if response.status_code == 200:
+        response_json = response.json()
+        if "response" in response_json:
+            return response_json["response"]
+        else:
+            print("Response does not contain 'response' key.")
+            return None
+    else:
+        print(f"Request failed with status code: {response.status_code}")
+        return None
+
+#print(response['message']['content'])

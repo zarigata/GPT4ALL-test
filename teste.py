@@ -4,6 +4,7 @@ from ollama import Client
 import time #i have no idea
 import pyttsx3 #==============================================#
 import speech_recognition as sr #import speech recognition module from Google.
+import requests
 
 #=============================#
 def talk(text):
@@ -29,18 +30,32 @@ with sr.Microphone() as source:
     except sr.RequestError as e:
         print("Error fetching results; {0}".format(e))\
 
-modelfile='''
-FROM llama2
-SYSTEM 
-'''
+def generate_text_with_prompt(prompt_text):
+    url = 'http://valleteck.ddns.net:11434/api/generate'
+    payload = {
+        "model": "aladdin:latest",
+        "prompt": text,
+        "stream": False,
+        "options": {
+            "num_ctx": 1024
+        }
+    }
+    response = requests.post(url, json=payload)
+    
+    if response.status_code == 200:
+        response_json = response.json()
+        if "response" in response_json:
+            return response_json["response"]
+        else:
+            print("Response does not contain 'response' key.")
+            return None
+    else:
+        print(f"Request failed with status code: {response.status_code}")
+        return None
 
-ollama.list()
-        
-client = Client(host='http://192.168.15.115:11434')
-response = client.chat(model='aladdin:latest', messages=[{'role': 'user','content': text,},])
-
-print(response['message']['content'])
-talk(response)
+fala = generate_text_with_prompt(text)
+print ("Falando...", fala)
+talk(fala)
         
 
     
