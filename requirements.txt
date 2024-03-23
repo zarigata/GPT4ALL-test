@@ -1,2 +1,4 @@
-ollama==1.0.6
-time
+pyttsx3
+speechrecognition
+requests
+ollama
