@@ -33,7 +33,7 @@ with sr.Microphone() as source:
 def generate_text_with_prompt(prompt_text):
     url = 'http://valleteck.ddns.net:11434/api/generate'
     payload = {
-        "model": "donald-trump:latest",
+        "model": "hub/donald-trump",
         "prompt": text,
         "stream": False,
         "options": {
