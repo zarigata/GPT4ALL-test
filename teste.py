@@ -56,6 +56,4 @@ def generate_text_with_prompt(prompt_text):
 fala = generate_text_with_prompt(text)
 print ("Falando...", fala)
 talk(fala)
-        
 
-    
