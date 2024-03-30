@@ -9,6 +9,7 @@ BLOCKED_HOSTS = [
     "youtube.com",
     "twitter.com",
     "linkedin.com",
+    "newyorktimes.com"
 ]
 
 TOTAL_SEARCH_RESULTS = 2
