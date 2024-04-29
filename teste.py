@@ -23,7 +23,7 @@ with sr.Microphone() as source:
     audio = recognizer.listen(source)
     print("Processing...")
     try:
-        text = recognizer.recognize_google(audio)
+        text = recognizer.recognize_google(audio, language = "pt-BR")
         print("You said:", text)
     except sr.UnknownValueError:
         print("Sorry, could not understand audio.")
@@ -34,6 +34,7 @@ def generate_text_with_prompt(prompt_text):
     url = 'http://valleteck.ddns.net:11434/api/generate'
     payload = {
         "model": "hub/donald-trump",
+        #"model": "hub/zarigata/aladdin:latest",
         "prompt": text,
         "stream": False,
         "options": {
